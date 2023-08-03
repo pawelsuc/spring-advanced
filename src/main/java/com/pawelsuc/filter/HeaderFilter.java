@@ -4,11 +4,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@Order(1)
-public class FirstFilter implements Filter {
+@Order(2)
+public class HeaderFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Filter.super.init(filterConfig);
@@ -16,8 +17,11 @@ public class FirstFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("FirstFilter doFilter!");
-        filterChain.doFilter(servletRequest, servletResponse);
+        HttpServletResponse newServletResponse = (HttpServletResponse) servletResponse;
+        newServletResponse.addHeader("java", "jest najlepsza!");
+        System.out.println("HeaderFilter doFilter!");
+
+        filterChain.doFilter(servletRequest, newServletResponse);
     }
 
     @Override
