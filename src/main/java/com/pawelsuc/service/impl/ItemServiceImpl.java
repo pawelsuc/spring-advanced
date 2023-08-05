@@ -35,4 +35,19 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> getItemsWithNameLike(String regex) {
         return itemRepository.getItemsWithNameLike(regex);
     }
+
+    @Override
+    public List<Item> findByQuantity(Integer quantity) {
+        return itemRepository.findByQuantity(quantity);
+    }
+
+    @Override
+    public List<Item> findByQuantityBetween(Integer minQuantity, Integer maxQuantity) {
+        return itemRepository.findByQuantityBetween(minQuantity,maxQuantity);
+    }
+
+    @Override
+    public List<Item> findByQuantityGreaterThanEqualOrderByQuantityDesc(Integer minQuantity) {
+        return itemRepository.findByQuantityGreaterThanEqualOrderByQuantityDesc(minQuantity);
+    }
 }

@@ -20,7 +20,7 @@ public class MainController {
     @RequestMapping("/")
     public List<Item> index(HttpServletResponse response) {
 
-        return itemService.getItemsWithQuantityOverTwenty();
+        return itemService.findByQuantityGreaterThanEqualOrderByQuantityDesc(250);
     }
 
     @RequestMapping("/quantity_threshold")
