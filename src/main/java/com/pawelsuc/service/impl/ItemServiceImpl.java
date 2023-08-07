@@ -1,9 +1,12 @@
 package com.pawelsuc.service.impl;
 
 import com.pawelsuc.entity.Item;
+import com.pawelsuc.repository.ItemPagingAndSortingRepository;
 import com.pawelsuc.repository.ItemRepository;
 import com.pawelsuc.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +16,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    ItemPagingAndSortingRepository itemPagingAndSortingRepository;
 
 
     @Override
@@ -49,5 +55,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> findByQuantityGreaterThanEqualOrderByQuantityDesc(Integer minQuantity) {
         return itemRepository.findByQuantityGreaterThanEqualOrderByQuantityDesc(minQuantity);
+    }
+
+    @Override
+    public Page<Item> findAll(Pageable pageable) {
+        return itemPagingAndSortingRepository.findAll(pageable);
     }
 }

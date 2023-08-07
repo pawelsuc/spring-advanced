@@ -3,6 +3,8 @@ package com.pawelsuc.controller;
 import com.pawelsuc.entity.Item;
 import com.pawelsuc.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,7 @@ import java.util.Optional;
 @RestController
 public class MainController {
 
+    private static final int PAGE_SIZE = 3;
     @Autowired
     ItemService itemService;
 
@@ -38,6 +41,17 @@ public class MainController {
     public List<Item> findByName() {
         String regexName = "s%";
         List<Item> result = itemService.getItemsWithNameLike(regexName);
-        return  result;
+        return result;
+    }
+
+    @RequestMapping("/items")
+    public List<Item> items(@RequestParam(defaultValue = "0") String page) {
+        int currentPage = Integer.parseInt(page);
+        PageRequest pageRequest = PageRequest.of(currentPage, PAGE_SIZE);
+
+        Page<Item> items = itemService.findAll(pageRequest);
+
+        return items.getContent();
+
     }
 }
