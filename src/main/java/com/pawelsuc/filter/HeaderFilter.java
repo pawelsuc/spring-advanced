@@ -19,7 +19,6 @@ public class HeaderFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse newServletResponse = (HttpServletResponse) servletResponse;
         newServletResponse.addHeader("java", "jest najlepsza!");
-        System.out.println("HeaderFilter doFilter!");
 
         filterChain.doFilter(servletRequest, newServletResponse);
     }
