@@ -14,4 +14,11 @@ public class WebController {
 
         return mav;
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login(ModelAndView mav) {
+        mav.setViewName("login");
+
+        return mav;
+    }
 }

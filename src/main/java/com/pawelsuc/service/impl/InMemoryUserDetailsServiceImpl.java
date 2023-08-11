@@ -22,9 +22,9 @@ public class InMemoryUserDetailsServiceImpl implements UserDetailsService {
 
     public InMemoryUserDetailsServiceImpl() {
         users = new ArrayList<UserDetails>();
-        users.add(new User("user","{noop}user", Arrays.asList("USER")));
-        users.add(new User("foo","{noop}bar", Arrays.asList("USER")));
-        users.add(new User("admin","{noop}admin", Arrays.asList("USER", "ADMIN")));
+        users.add(new User("user","user", Arrays.asList("USER")));
+        users.add(new User("foo","bar", Arrays.asList("USER")));
+        users.add(new User("admin","admin", Arrays.asList("USER", "ADMIN")));
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
