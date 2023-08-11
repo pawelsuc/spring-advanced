@@ -36,6 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .usernameParameter("foo")
                 .passwordParameter("bar")
+                .defaultSuccessUrl("/user_panel", true)
+                .and()
+                .logout()
+                .logoutUrl("/user_logout")
+                .logoutSuccessUrl("/login?logout")
+                .deleteCookies("cookies")
                 .and()
                 .csrf().disable();
 

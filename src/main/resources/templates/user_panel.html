@@ -1,9 +1,11 @@
 <!doctype html>
-<html>
+<html xmlns:th="http://thymeleaf.org">
 <head>
     <title>User panel</title>
+    <link rel="stylesheet" type="text/css" href="css/menu.css">
 </head>
 <body>
+    <div th:insert="menu.html :: div"></div>
     <h1>User Panel</h1>
 </body>
 </html>
