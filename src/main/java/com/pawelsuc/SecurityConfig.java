@@ -2,6 +2,7 @@ package com.pawelsuc;
 
 import com.pawelsuc.component.CustomDaoAuthenticationProvider;
 import com.pawelsuc.service.impl.JpaUserDetailsService;
+import org.hibernate.metamodel.model.domain.ManagedDomainType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -36,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/admin_panel").hasAuthority("ADMIN")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -47,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/user_logout")
                 .logoutSuccessUrl("/login?logout")
-                .deleteCookies("cookies");
+                .deleteCookies("cookies")
+                .and()
+                .csrf().disable();
     }
 }
