@@ -4,11 +4,15 @@ import com.pawelsuc.component.CustomDaoAuthenticationProvider;
 import com.pawelsuc.service.impl.JpaUserDetailsService;
 import org.hibernate.metamodel.model.domain.ManagedDomainType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity(debug = false)
@@ -16,12 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     JpaUserDetailsService userDetailsService;
+
+    @Autowired
     CustomDaoAuthenticationProvider authenticationProvider;
 
     @Autowired
-    public SecurityConfig (JpaUserDetailsService userDetailsService, CustomDaoAuthenticationProvider authenticationProvider) {
+    public SecurityConfig (JpaUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.authenticationProvider = authenticationProvider;
+
     }
 
     @Override
@@ -37,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/admin_panel").hasAuthority("ADMIN")
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -48,8 +54,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/user_logout")
                 .logoutSuccessUrl("/login?logout")
-                .deleteCookies("cookies")
-                .and()
-                .csrf().disable();
+                .deleteCookies("cookies");
+
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
