@@ -3,11 +3,14 @@ package com.pawelsuc.controller;
 import com.pawelsuc.entity.User;
 import com.pawelsuc.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 public class SignUpController {
 
     private SignUpService signUpService;
@@ -17,17 +20,16 @@ public class SignUpController {
         this.signUpService = signUpService;
     }
 
-
-    @GetMapping("/api/test")
-    public String apiTest() {
-        return "Hello from apiTest";
+    @GetMapping(value = "/sign_up")
+    public ModelAndView signUp(ModelAndView mav) {
+        mav.setViewName("sign_up");
+        return mav;
     }
 
-    @PostMapping("/api/sign_up")
-    public String signUp(String username, String password) {
-        User userToSignUp = new User(username, password);
-        signUpService.signUpUser(userToSignUp);
-
-        return "User signed up";
+    @PostMapping(value = "/sign_up")
+    public ModelAndView signUpPost(ModelAndView mav, @RequestParam("username") String username, @RequestParam("password") String password) {
+        mav.setViewName("redirect:/login");
+        signUpService.signUpUser(new User(username, password));
+        return mav;
     }
 }
