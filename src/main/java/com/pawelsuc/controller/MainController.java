@@ -1,5 +1,6 @@
 package com.pawelsuc.controller;
 
+import com.pawelsuc.component.SignUpMailer;
 import com.pawelsuc.entity.Item;
 import com.pawelsuc.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class MainController {
     private static final int PAGE_SIZE = 3;
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    private SignUpMailer mailer;
 
     @RequestMapping("/")
     public List<Item> index(HttpServletResponse response) {
@@ -53,5 +57,10 @@ public class MainController {
 
         return items.getContent();
 
+    }
+    @RequestMapping("/send_mail")
+    public String sendMail() {
+        mailer.sendMessage("pablosuc94test@gmail.com", "Test14082023", "Test14082023 - content of message");
+        return "mail sent";
     }
 }
