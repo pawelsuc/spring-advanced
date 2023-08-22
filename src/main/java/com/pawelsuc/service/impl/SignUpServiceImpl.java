@@ -1,5 +1,6 @@
 package com.pawelsuc.service.impl;
 
+import com.pawelsuc.component.mailer.RandomStringFactory;
 import com.pawelsuc.component.mailer.SignUpMailer;
 import com.pawelsuc.entity.User;
 import com.pawelsuc.repository.UserRepository;
@@ -11,6 +12,7 @@ import org.springframework.util.Assert;
 
 @Service
 public class SignUpServiceImpl implements SignUpService {
+    private static final int TOKEN_LENGTH = 15;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private SignUpMailer mailer;
@@ -26,8 +28,11 @@ public class SignUpServiceImpl implements SignUpService {
     public User signUpUser(User user) {
         Assert.isNull(user.getIdUser(), "Can't sign up given user, it already has set id. User: " + user.toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        User savedUser = userRepository.save(user);
-        mailer.sendConfirmationLink(user.getEmail(), "123456789xyz");
-        return user;
+        String token = RandomStringFactory.getRandomString(TOKEN_LENGTH);
+        user.setConfirmationToken(token);
+        mailer.sendConfirmationLink(user.getEmail(), token);
+        User savedUser = userRepository.save(user);
+
+        return savedUser;
     }
 }

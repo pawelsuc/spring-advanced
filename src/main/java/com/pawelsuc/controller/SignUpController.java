@@ -29,9 +29,7 @@ public class SignUpController {
     @PostMapping(value = "/sign_up")
     public ModelAndView signUpPost(ModelAndView mav, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email) {
         mav.setViewName("redirect:/login");
-        User user = new User(username, password);
-        user.setEmail(email);
-
+        User user = User.of(username, password, email);
         signUpService.signUpUser(user);
         return mav;
     }

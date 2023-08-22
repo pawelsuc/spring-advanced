@@ -2,6 +2,8 @@ package com.pawelsuc.controller;
 
 import com.pawelsuc.component.mailer.SignUpMailer;
 import com.pawelsuc.entity.Item;
+import com.pawelsuc.entity.User;
+import com.pawelsuc.repository.UserRepository;
 import com.pawelsuc.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,9 @@ public class MainController {
 
     @Autowired
     private SignUpMailer mailer;
+
+    @Autowired
+    UserRepository userRepository;
 
     @RequestMapping("/")
     public List<Item> index(HttpServletResponse response) {
@@ -58,9 +63,24 @@ public class MainController {
         return items.getContent();
 
     }
+
     @RequestMapping("/send_mail")
     public String sendMail() {
         mailer.sendMessage("pablosuc94test@gmail.com", "Test14082023", "Test14082023 - content of message");
         return "mail sent";
+    }
+    @RequestMapping("confirm_email")
+    public String confirmEmail(@RequestParam(name="token") String token) {
+        Optional<User> optionalUser = userRepository.findByConfirmationToken(token);
+
+        if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setEnabled(true);
+            userRepository.save(user);
+            return "Your account has been activated";
+        } else {
+            return "Given token does not exist";
+        }
+
     }
 }

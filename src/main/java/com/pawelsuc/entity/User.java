@@ -21,6 +21,12 @@ public class User implements UserDetails {
     @Column
     private String email;
 
+    @Column
+    private String confirmationToken;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean enabled;
+
     public User() {
 
     }
@@ -28,6 +34,16 @@ public class User implements UserDetails {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.enabled = false;
+    }
+
+    public static User of(String username, String password, String email) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setEnabled(false);
+        return user;
     }
 
 
@@ -81,7 +97,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
     public String getEmail() {
@@ -90,5 +106,17 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getConfirmationToken() {
+        return confirmationToken;
+    }
+
+    public void setConfirmationToken(String confirmationToken) {
+        this.confirmationToken = confirmationToken;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
