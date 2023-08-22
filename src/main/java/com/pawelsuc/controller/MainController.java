@@ -1,6 +1,6 @@
 package com.pawelsuc.controller;
 
-import com.pawelsuc.component.SignUpMailer;
+import com.pawelsuc.component.mailer.SignUpMailer;
 import com.pawelsuc.entity.Item;
 import com.pawelsuc.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;

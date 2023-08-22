@@ -18,6 +18,9 @@ public class User implements UserDetails {
     @Column
     private String password;
 
+    @Column
+    private String email;
+
     public User() {
 
     }
@@ -79,5 +82,13 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -1,4 +1,4 @@
-package com.pawelsuc.component;
+package com.pawelsuc.component.mailer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -10,9 +10,12 @@ public class SignUpMailer {
 
     private JavaMailSender emailSender;
 
+    private SignUpMailTextFactory textFactory;
+
     @Autowired
-    public SignUpMailer(JavaMailSender emailSender) {
+    public SignUpMailer(JavaMailSender emailSender, SignUpMailTextFactory textFactory) {
         this.emailSender = emailSender;
+        this.textFactory = textFactory;
     }
 
     public void sendMessage(String to, String subject, String text) {
@@ -22,4 +25,12 @@ public class SignUpMailer {
         message.setText(text);
         emailSender.send(message);
     }
-}
+
+    public void sendConfirmationLink(String email, String token) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject(textFactory.getConfirmationMailSubject());
+        message.setText(textFactory.getConfirmationMailText(token));
+        emailSender.send(message);
+    }
+ }
