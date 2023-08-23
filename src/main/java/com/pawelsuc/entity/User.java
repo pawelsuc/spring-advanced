@@ -1,10 +1,14 @@
 package com.pawelsuc.entity;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class User implements UserDetails {
@@ -27,6 +31,10 @@ public class User implements UserDetails {
     @Column(columnDefinition = "boolean default false")
     private boolean enabled;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
+    Set<Role> roles;
+
     public User() {
 
     }
@@ -43,6 +51,7 @@ public class User implements UserDetails {
         user.setPassword(password);
         user.setEmail(email);
         user.setEnabled(false);
+        user.roles = new HashSet<>();
         return user;
     }
 
@@ -50,8 +59,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        TODO implement
-        return null;
+
+        return roles.stream().map(x -> new SimpleGrantedAuthority(x.getName())).collect(Collectors.toSet());
     }
 
     @Override
@@ -118,5 +127,13 @@ public class User implements UserDetails {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
