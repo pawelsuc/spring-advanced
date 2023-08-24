@@ -3,8 +3,10 @@ package com.pawelsuc.controller;
 import com.pawelsuc.entity.User;
 import com.pawelsuc.event.UserPanelEnterEvent;
 import com.pawelsuc.event.UserPanelEnterPublisher;
+import com.pawelsuc.profile.ProfileBean;
 import com.pawelsuc.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +18,15 @@ public class WebController {
 
     private UserPanelEnterPublisher publisher;
 
+    private String greetings;
+
+    private ProfileBean profileBean;
+
     @Autowired
-    public WebController(UserPanelEnterPublisher publisher) {
+    public WebController(UserPanelEnterPublisher publisher, @Value("${user.panel.greetings}") String greetings, ProfileBean profileBean) {
         this.publisher = publisher;
+        this.greetings = greetings;
+        this.profileBean = profileBean;
     }
 
 
@@ -28,6 +36,8 @@ public class WebController {
 
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         publisher.publish(principal.getUsername());
+        mav.addObject("greetings", greetings);
+        System.out.println(profileBean.showMessage());
 
         return mav;
     }
