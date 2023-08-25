@@ -1,0 +1,24 @@
+.user-panel-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.title{
+	font-family: "Roboto", sans-serif;
+	font-weight: 700;
+	font-size: 2rem;
+}
+
+.user-panel-element{
+	margin: auto;
+	margin-top: 20px;
+}
+
+.greetings{
+	border: 1px solid grey;
+	font-family: "Roboto", sans-serif;
+	font-weight: 700;
+	font-size: 1.3rem;
+	padding: 10px 15px 10px 15px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

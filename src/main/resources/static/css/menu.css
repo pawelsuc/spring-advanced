@@ -1,34 +1,40 @@
 :root{
-    --main-color: #68bd45;
+	--primary-blue: #3452ff;
+	--secondary-blue: #0127ff;
 }
+
+
 body{
-    margin: 0
+	margin: 0;
 }
 
 .menu{
-    display: flex;
-    flex-direction: row;
-    background-color: var(--main-color);
-    justify-content: flex-end;
+	display: flex;
+	flex-direction: row;
+	background-color: var(--primary-blue);
+	justify-content: flex-end
 }
 
 .menu-element{
-    padding: 10px 5px 10px 5px;
-    text-decoration: none;
-    color: white;
-    font-size: 20px;
+	padding: 10px 5px 10px 5px;
+	text-decoration: none;
+	color: white;
+	font-size: 1.3rem;
+	font-weight: 700;
+	font-family: "Roboto", sans-serif;
+	transition: 0.3s;
+	cursor: pointer;
 }
 
 .menu-element:hover{
-    background-color: white;
-    color: var(--main-color);
+	background-color: var(--secondary-blue)
 }
 
 .menu-separator-v{
-    border-left: 2px solid white;
+	border-left: 1px solid white;
 }
 
 .unstyled-button{
-    border: none;
-    background: none;
+	border: none;
+	background:none;
 }

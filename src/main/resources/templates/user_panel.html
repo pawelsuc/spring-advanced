@@ -3,10 +3,13 @@
 <head>
     <title>User panel</title>
     <link rel="stylesheet" type="text/css" href="css/menu.css">
+    <link rel="stylesheet" type="text/css" href="css/user_panel.css">
 </head>
-<body>
-    <div th:insert="menu.html :: div"></div>
-    <h1>User Panel</h1>
-    <h2 th:text="${greetings}"></h2>
+<div th:insert="menu.html :: div"></div>
+<div class="user-panel-wrapper">
+    <div class="title user-panel-element">User Panel</div>
+    <div class="greetings user-panel-element" th:text="${greetings}"></div>
+</div>
 </body>
+
 </html>
